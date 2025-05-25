@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron bg-primary p-5 rounded">
+  <h1 class="display-4">Discover Local Businesses</h1>
+  <p class="lead">
+    Find and support local businesses in Srinagar and surrounding areas.
+  </p>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          id="search-input"
+          class="form-control"
+          placeholder="Search businesses..."
+        />
+        <button class="btn btn-primary" type="button" id="search-button">
+          Search
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <select class="form-select" id="category-filter">
+        <option value="">All Categories</option>
+        <!-- Categories will be loaded dynamically -->
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4" id="businesses-container">
+  <!-- Businesses will be loaded dynamically -->
+  <div class="col-12 text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+{% endblock %} {% block scripts %}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

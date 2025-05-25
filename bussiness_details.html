@@ -1,0 +1,88 @@
+{% extends "base.html" %} {% block title %}Business Details | Local Business
+Discovery Platform{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-md-12 mb-3">
+    <a href="/" class="btn btn-outline-primary">&larr; Back to Listings</a>
+  </div>
+</div>
+
+<div id="business-details">
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const businessId = {{ business_id }};
+      fetchBusinessDetails(businessId);
+  });
+
+  async function fetchBusinessDetails(businessId) {
+      try {
+          const response = await fetch(`/api/businesses/${businessId}`);
+          const business = await response.json();
+
+          if (response.ok) {
+              displayBusinessDetails(business);
+          } else {
+              document.getElementById('business-details').innerHTML = `
+                  <div class="alert alert-danger">
+                      ${business.error || 'Failed to load business details'}
+                  </div>
+              `;
+          }
+      } catch (error) {
+          document.getElementById('business-details').innerHTML = `
+              <div class="alert alert-danger">
+                  An error occurred while fetching business details.
+              </div>
+          `;
+      }
+  }
+
+  function displayBusinessDetails(business) {
+      const detailsContainer = document.getElementById('business-details');
+
+      let imagePath = '/static/images/placeholder.jpg';
+      if (business.image_url) {
+          imagePath = `/static/images/${business.image_url}`;
+      }
+
+      detailsContainer.innerHTML = `
+          <div class="card mb-4">
+              <div class="row g-0">
+                  <div class="col-md-4">
+                      <img src="${imagePath}" class="img-fluid rounded-start" alt="${business.name}">
+                  </div>
+                  <div class="col-md-8">
+                      <div class="card-body">
+                          <h1 class="card-title">${business.name}</h1>
+                          <span class="badge bg-primary mb-2">${business.category_name}</span>
+                          <p class="card-text">${business.description}</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="card mb-4">
+                      <div class="card-header">
+                          <h5>Contact Information</h5>
+                      </div>
+                      <div class="card-body">
+                          <p><strong>Address:</strong> ${business.address}</p>
+                          <p><strong>Phone:</strong> ${business.phone}</p>
+                          <p><strong>Email:</strong> ${business.email}</p>
+                          <p><strong>Website:</strong> <a href="https://${business.website}" target="_blank">${business.website}</a></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      `;
+  }
+</script>
+{% endblock %}
