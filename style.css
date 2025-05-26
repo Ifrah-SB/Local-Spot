@@ -1,0 +1,35 @@
+/* Custom styles for Local Business Discovery Platform */
+
+body {
+  background-color: #a9dbff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  background-color: #428dca;
+  flex: 1;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.jumbotron {
+  background: linear-gradient(to right, #428dca, #8ca4c9);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.3rem;
+}
+
+.card-img-top {
+  background-color: #9bbfe3;
+  height: 200px;
+  object-fit: cover;
+}
+
+.badge {
+  background-color: #8abcee;
+  font-size: 0.8rem;
+}
